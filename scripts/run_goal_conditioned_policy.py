@@ -1,6 +1,9 @@
 import argparse
 import pickle
-
+import sys
+sys.path.append('.')
+import rlkit.torch.pytorch_util as ptu
+ptu.set_gpu_mode(True)
 from rlkit.core import logger
 from rlkit.samplers.rollout_functions import multitask_rollout
 from rlkit.torch import pytorch_util as ptu

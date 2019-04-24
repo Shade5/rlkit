@@ -1,6 +1,10 @@
 import gym
 
+import sys
+sys.path.append('.')
 import rlkit.torch.pytorch_util as ptu
+ptu.set_gpu_mode(True)
+
 from rlkit.data_management.obs_dict_replay_buffer import ObsDictRelabelingBuffer
 from rlkit.launchers.launcher_util import setup_logger
 from rlkit.samplers.data_collector import GoalConditionedPathCollector
