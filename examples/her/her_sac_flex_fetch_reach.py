@@ -1,4 +1,5 @@
 import sys
+import numpy as np
 sys.path.append('.')
 import rlkit.torch.pytorch_util as ptu
 ptu.set_gpu_mode(True)
@@ -101,7 +102,7 @@ if __name__ == "__main__":
         version='normal',
         algo_kwargs=dict(
             batch_size=128,
-            num_epochs=100,
+            num_epochs=2000,
             num_eval_steps_per_epoch=5000,
             num_expl_steps_per_train_loop=1000,
             num_trains_per_train_loop=1000,

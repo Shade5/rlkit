@@ -1,4 +1,4 @@
-scene_name: RL Fetch LR HER
+scene_name: RL Fetch Reach
 exp:
   max_ep_len: 200
   frame_sampling:

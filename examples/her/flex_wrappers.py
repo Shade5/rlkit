@@ -28,13 +28,14 @@ class FetchReach:
 
 	def reset(self):
 		self.env.reset()
-		obs, reward, done, info = self.step(self.env.action_space.sample())
+		for i in range(20):
+			obs, reward, done, info = self.step(np.array([0, 0, 0, -1]))
 		return obs
 
 	def step(self, action):
 		obs, reward, done, info = self.env.step(action)
-		return {'observation': np.hstack((obs[0], info[0][:3])), 'achieved_goal': obs[0][:3],
-		        'desired_goal': info[0][:3]}, reward[0], done[0], {'is_success': reward + 1}
+		return {'observation': obs[0], 'achieved_goal': obs[0][:3],
+		        'desired_goal': obs[0][4:8]}, reward[0], done[0], {'is_success': reward[0] + 1}
 
 	def compute_reward(self, achieved_goal, desired_goal, info):
 		return self.env.compute_reward(achieved_goal[None, :], desired_goal[None, :], info)
