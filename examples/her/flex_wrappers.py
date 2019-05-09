@@ -7,6 +7,8 @@ from gym import spaces
 class FetchReach:
 	def __init__(self):
 		self.cfg = YamlConfig('/home/georgejo/rlkit/examples/her/cfg/fetch_cube.yaml')
+		# self.cfg = YamlConfig('/home/a/workspace/katerina/rlkit/examples/her/cfg/fetch_cube.yaml')
+
 		self.numAgents = self.cfg['scene']['NumAgents'] = 1
 		self.cfg['scene']['NumPerRow'] = np.sqrt(np.floor(self.numAgents))
 		self.cfg['scene']['SampleInitStates'] = True
@@ -18,13 +20,14 @@ class FetchReach:
 		self.cfg['scene']['DoWristRollControl'] = False
 
 		set_flex_bin_path('/home/georgejo/FlexRobotics/bin')
+		# set_flex_bin_path('/home/a/workspace/FlexRobotics/bin')
 		self.env = FlexVecEnv(self.cfg)
 
 		self.action_space = self.env.action_space
 		self.observation_space = spaces.Dict(
 			{"achieved_goal": spaces.Box(low=-np.inf, high=np.inf, shape=(3, 1), dtype=np.float32),
 			 "desired_goal": spaces.Box(low=-np.inf, high=np.inf, shape=(3, 1), dtype=np.float32),
-			 "observation": spaces.Box(low=-np.inf, high=np.inf, shape=(7, 1), dtype=np.float32)})
+			 "observation": spaces.Box(low=-np.inf, high=np.inf, shape=(4, 1), dtype=np.float32)})
 
 	def reset(self):
 		self.env.reset()
@@ -34,7 +37,7 @@ class FetchReach:
 
 	def step(self, action):
 		obs, reward, done, info = self.env.step(action)
-		return {'observation': obs[0], 'achieved_goal': obs[0][:3],
+		return {'observation': obs[0][:4], 'achieved_goal': obs[0][:3],
 		        'desired_goal': obs[0][4:8]}, reward[0], done[0], {'is_success': reward[0] + 1}
 
 	def compute_reward(self, achieved_goal, desired_goal, info):

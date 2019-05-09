@@ -130,5 +130,5 @@ if __name__ == "__main__":
             hidden_sizes=[400, 300],
         ),
     )
-    setup_logger('her-sac-fetch-experiment', variant=variant)
+    setup_logger('her-sac-flex-fetch', variant=variant)
     experiment(variant)

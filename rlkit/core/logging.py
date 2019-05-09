@@ -284,7 +284,11 @@ class Logger(object):
             elif self._snapshot_mode == 'last':
                 # override previous params
                 file_name = osp.join(self._snapshot_dir, 'params.pkl')
-                # pickle.dump(params, open(file_name, "wb"))
+                if "flex" in str(type(params['exploration/env'])):
+                    # Can't save FlexEnv, thus just saving name
+                    params['exploration/env'] = type(params['exploration/env'])
+                    params['evaluation/env'] = type(params['evaluation/env'])
+                pickle.dump(params, open(file_name, "wb"))
             elif self._snapshot_mode == "gap":
                 if itr % self._snapshot_gap == 0:
                     file_name = osp.join(self._snapshot_dir, 'itr_%d.pkl' % itr)
