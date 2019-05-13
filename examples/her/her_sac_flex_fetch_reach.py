@@ -12,8 +12,7 @@ from rlkit.torch.networks import FlattenMlp
 from rlkit.torch.sac.policies import MakeDeterministic, TanhGaussianPolicy
 from rlkit.torch.sac.sac import SACTrainer
 from rlkit.torch.torch_rl_algorithm import TorchBatchRLAlgorithm
-
-from flex_wrappers import FetchReach
+from rlkit.core.flex_wrappers import FetchReach
 
 
 def experiment(variant):
