@@ -23,22 +23,32 @@ class FetchReach:
 		# set_flex_bin_path('/home/a/workspace/FlexRobotics/bin')
 		self.env = FlexVecEnv(self.cfg)
 
+		self.previous_observation = None
 		self.action_space = self.env.action_space
 		self.observation_space = spaces.Dict(
 			{"achieved_goal": spaces.Box(low=-np.inf, high=np.inf, shape=(3, 1), dtype=np.float32),
 			 "desired_goal": spaces.Box(low=-np.inf, high=np.inf, shape=(3, 1), dtype=np.float32),
-			 "observation": spaces.Box(low=-np.inf, high=np.inf, shape=(4, 1), dtype=np.float32)})
+			 "observation": spaces.Box(low=-np.inf, high=np.inf, shape=(8, 1), dtype=np.float32)})
 
 	def reset(self):
 		self.env.reset()
 		for i in range(20):
-			obs, reward, done, info = self.step(np.array([0, 0, 0, -1]))
-		return obs
+			obs, reward, done, info = self.env.step(np.array([0, 0, 0, -1]))
+		self.previous_observation = obs[0][:4].copy()
+
+		return {'observation': np.append(obs[0][:4], np.zeros(4)), 'achieved_goal': obs[0][:3],
+		        'desired_goal': obs[0][4:8]}
 
 	def step(self, action):
 		obs, reward, done, info = self.env.step(action)
-		return {'observation': obs[0][:4], 'achieved_goal': obs[0][:3],
+		velocity = obs[0][:4] - self.previous_observation
+		self.previous_observation = obs[0][:4].copy()
+		return {'observation': np.append(obs[0][:4], velocity), 'achieved_goal': obs[0][:3],
 		        'desired_goal': obs[0][4:8]}, reward[0], done[0], {'is_success': reward[0] + 1}
 
 	def compute_reward(self, achieved_goal, desired_goal, info):
 		return self.env.compute_reward(achieved_goal[None, :], desired_goal[None, :], info)
+
+	@property
+	def unwrapped(self):
+		return self
