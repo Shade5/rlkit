@@ -12,13 +12,13 @@ from rlkit.torch.networks import FlattenMlp
 from rlkit.torch.sac.policies import MakeDeterministic, TanhGaussianPolicy
 from rlkit.torch.sac.sac import SACTrainer
 from rlkit.torch.torch_rl_algorithm import TorchBatchRLAlgorithm
-from rlkit.core.flex_wrappers import FetchReach
+from rlkit.core.flex_wrappers import FetchReach, FetchReachMultiRobot, FetchPush
 
 
 def experiment(variant):
 
-    eval_env = FetchReach()
-    expl_env = FetchReach()
+    eval_env = FetchReach(0)
+    expl_env = FetchReach(0)
 
     observation_key = 'observation'
     desired_goal_key = 'desired_goal'

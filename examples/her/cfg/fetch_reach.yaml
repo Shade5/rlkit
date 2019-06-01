@@ -1,12 +1,12 @@
 scene_name: RL Fetch Reach
 exp:
-  max_ep_len: 24
+  max_ep_len: 200
   frame_sampling:
     mode: constant # geomtric or constant
     mean: 2 # used for constant or as the geometric parameter (1/mean)
     max: 5 # used for geometric
 gym:
-  renderBackend: 1
+  renderBackend: 0
 scene:
   NumAgents: 50
 #solver
@@ -29,8 +29,8 @@ scene:
   SampleInitStates: True
   DoDeltaPlanarControl: True
   DoGripperControl: False # Keep False for Push task
-  SparseRewards: False
+  SparseRewards: True
   RenderTarget: True
   RelativeTarget: False
-  InitOnPlane: False
+  InitOnPlane: True
   ControlOnPlane: False
